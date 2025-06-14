@@ -1,10 +1,9 @@
 { config, lib, pkgs, inputs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -13,13 +12,13 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking = {
-    hostName = "laptop-nix"; 
+    hostName = "laptop-nix";
     networkmanager = {
       enable = true;
       settings.connection = {
-	# This is necessary for proper fallback to IPv4 in case of IPv6 issues.
-	"ipv6.method" = "auto";
-      	"ipv6.may-fail" = true;
+        # This is necessary for proper fallback to IPv4 in case of IPv6 issues.
+        "ipv6.method" = "auto";
+        "ipv6.may-fail" = true;
       };
     };
   };
@@ -50,64 +49,59 @@
   #   pulse.enable = true;
   # };
 
-
   # Define user account.
   users.users.simon = {
     isNormalUser = true;
-    extraGroups = [ 
-      "wheel" 		# sudo
-      "networkmanager" 	# Networking
+    extraGroups = [
+      "wheel" # sudo
+      "networkmanager" # Networking
     ];
-    packages = with pkgs; [
-      tree
-    ];
+    packages = with pkgs; [ tree ];
   };
 
-  home-manager = { 
+  home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    users = {
-      "simon" = import ./home.nix;
-    };
+    users = { "simon" = import ./home.nix; };
   };
 
   programs.hyprland = {
-	enable = true;
-	xwayland.enable = true;
+    enable = true;
+    xwayland.enable = true;
   };
 
   programs.firefox.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
-	# Base utils
-   	vim
+    # Base utils
+    vim
     wget
-	git
-	tmux
-	dig
-	btop
-	stow
-	zip
-	unzip
+    git
+    tmux
+    dig
+    btop
+    stow
+    zip
+    unzip
     neovim
 
-	# Fonts
-	nerd-fonts.hack
-	nerd-fonts.noto
-	nerd-fonts.jetbrains-mono
+    # Fonts
+    nerd-fonts.hack
+    nerd-fonts.noto
+    nerd-fonts.jetbrains-mono
 
-	# Term
-	kitty
-	
-	# DE stuff
-	rofi-wayland
+    # Term
+    kitty
 
-	# Term stuff
-	yazi
+    # DE stuff
+    rofi-wayland
 
-	# Apps
-	obsidian
-	discord
+    # Term stuff
+    yazi
+
+    # Apps
+    obsidian
+    discord
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
