@@ -14,14 +14,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networkingConfig.enable = true;
-  # localizationConfig.enable = true;
 
-  # Enable touchpad support
-  services.libinput.enable = true;
-
-  # Enable CUPS for printing
-  services.printing.enable = true;
-
+  # TODO: refactor to separate file
   # Enable sound.
   # services.pulseaudio.enable = true;
   # OR
@@ -37,7 +31,7 @@
       "wheel" # sudo
       "networkmanager" # Networking
     ];
-    packages = with pkgs; [ tree ];
+    packages = with pkgs; [ ];
   };
 
   home-manager = {
@@ -45,9 +39,13 @@
     users = { "simon" = import ./home.nix; };
   };
 
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
+  hyprland.enable = true;
+
+  fonts.enable = true;
+
+  systemServices = {
+    printing.enable = true;
+    ssh.enable = true;
   };
 
   programs.firefox.enable = true;
@@ -55,48 +53,28 @@
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     # Base utils
+    btop
+    dig
+    git
+    stow
+    tmux
+    tree
+    unzip
     vim
     wget
-    git
-    tmux
-    dig
-    btop
-    stow
     zip
-    unzip
-    neovim
-
-    # Fonts
-    nerd-fonts.hack
-    nerd-fonts.noto
-    nerd-fonts.jetbrains-mono
 
     # Term
     kitty
 
-    # DE stuff
-    rofi-wayland
-
     # Term stuff
     yazi
+    neovim
 
     # Apps
     obsidian
     discord
   ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
