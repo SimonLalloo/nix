@@ -1,8 +1,10 @@
 { config, lib, pkgs, inputs, ... }:
 
 {
-  imports = [ # Include the results of the hardware scan.
+  imports = [
     ./hardware-configuration.nix
+
+    ../../nixosModules
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -11,29 +13,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking = {
-    hostName = "laptop-nix";
-    networkmanager = {
-      enable = true;
-      settings.connection = {
-        # This is necessary for proper fallback to IPv4 in case of IPv6 issues.
-        "ipv6.method" = "auto";
-        "ipv6.may-fail" = true;
-      };
-    };
-  };
-  # Enable systemd-resolved for local DNS
-  services.resolved.enable = true;
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Set your time zone.
-  time.timeZone = "Europe/Stockholm";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  networkingConfig.enable = true;
+  # localizationConfig.enable = true;
 
   # Enable touchpad support
   services.libinput.enable = true;
