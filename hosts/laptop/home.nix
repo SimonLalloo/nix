@@ -12,6 +12,15 @@
     gcc
   ];
 
+  # TODO:
+  desktop.hyprland.enable = false;
+
+  development = {
+    python.enable = true; # base python will be installed even if disabled
+    flutter.enable = false;
+  };
+
+  # TODO: Clean this up
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {

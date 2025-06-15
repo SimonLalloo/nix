@@ -16,10 +16,10 @@ with lib;
     # Enable touchpad support
     services.libinput.enable = true;
 
-    environment.systemPackages = with pkgs;
-      [
-        rofi-wayland # Application launcher / app switcher
-      ];
+    environment.systemPackages = with pkgs; [
+      rofi-wayland # Default application launcher / app switcher
+      kitty # default terminal
+    ];
 
     # Enable XDG portal for Hyprland
     xdg.portal = {

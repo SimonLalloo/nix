@@ -4,14 +4,19 @@ with lib;
 
 {
   options = {
-    networkingConfig.enable =
-      mkEnableOption "Enable laptop networking configuration";
+    systemServices.networking.enable =
+      mkEnableOption "Enable networking configuration";
+
+    systemServices.networking.hostname = mkOption {
+      type = types.str;
+      default = "nixos";
+      description = "Hostname for the device";
+    };
   };
 
-  config = mkIf config.networkingConfig.enable {
+  config = mkIf config.systemServices.networking.enable {
     networking = {
-      # TODO: pass this as an option
-      hostName = "laptop-nix";
+      hostName = config.systemServices.networking.hostname;
 
       networkmanager = {
         enable = true;

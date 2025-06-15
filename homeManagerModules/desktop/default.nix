@@ -3,8 +3,6 @@
 {
   imports = [
 
-    ./desktop
-
-    ./development
+    ./hyprland.nix
   ];
 }

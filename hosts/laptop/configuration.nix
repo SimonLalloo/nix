@@ -13,9 +13,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networkingConfig.enable = true;
+  # TODO: 
+  # - Audio
+  # - Bluetooth
+  # - Battery
 
-  # TODO: refactor to separate file
   # Enable sound.
   # services.pulseaudio.enable = true;
   # OR
@@ -44,6 +46,10 @@
   fonts.enable = true;
 
   systemServices = {
+    networking = {
+      enable = true;
+      hostname = "laptop-nix";
+    };
     printing.enable = true;
     ssh.enable = true;
   };
@@ -74,6 +80,16 @@
     # Apps
     obsidian
     discord
+
+    # Hyprland stuff
+    wl-clipboard # Clipboard manager
+    grim # Screenshot tool
+    slurp # Area selector
+    imagemagick # Image editor
+    hyprpaper # Wallpaper
+    hyprlock # Lock screen
+    hypridle # Idle manager
+    brightnessctl # Backlight controls
   ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
