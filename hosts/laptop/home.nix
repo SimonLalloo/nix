@@ -20,6 +20,11 @@
     flutter.enable = false;
   };
 
+  shells.zsh = {
+    enable = true;
+    rebuild = "sudo nixos-rebuild switch --flake ~/nixos#laptop";
+  };
+
   # TODO: Clean this up
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.

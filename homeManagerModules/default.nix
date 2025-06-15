@@ -6,5 +6,9 @@
     ./desktop
 
     ./development
+
+    ./shells
+
+    # ./term
   ];
 }

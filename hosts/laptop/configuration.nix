@@ -26,9 +26,12 @@
   #   pulse.enable = true;
   # };
 
+  programs.zsh.enable = true;
+
   # Define user account.
   users.users.simon = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     extraGroups = [
       "wheel" # sudo
       "networkmanager" # Networking
