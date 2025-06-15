@@ -9,6 +9,6 @@
 
     ./shells
 
-    # ./term
+    ./term
   ];
 }

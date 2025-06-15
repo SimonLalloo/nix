@@ -25,6 +25,8 @@
     rebuild = "sudo nixos-rebuild switch --flake ~/nixos#laptop";
   };
 
+  term.tmux.enable = true;
+
   # TODO: Clean this up
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
