@@ -7,5 +7,8 @@ with lib;
     development.flutter.enable = mkEnableOption "Enable Flutter/Dart dev stuff";
   };
 
-  config = mkIf config.development.flutter.enable { };
+  config = mkIf config.development.flutter.enable {
+
+    home.packages = with pkgs; [ android-studio ];
+  };
 }

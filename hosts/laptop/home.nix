@@ -6,6 +6,7 @@
   home.username = "simon";
   home.homeDirectory = "/home/simon";
 
+  nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
 
     rustup
@@ -17,7 +18,7 @@
 
   development = {
     python.enable = true; # base python will be installed even if disabled
-    flutter.enable = false;
+    flutter.enable = true;
   };
 
   shells.zsh = {

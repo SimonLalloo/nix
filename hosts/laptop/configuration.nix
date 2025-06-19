@@ -35,6 +35,9 @@
     extraGroups = [
       "wheel" # sudo
       "networkmanager" # Networking
+      "adbusers" # Required for ADB (Android Debug Bridge) device access
+      "kvm" # Required for Android emulator hardware acceleration
+      "libvirtd" # advanced virtualization management
     ];
     packages = with pkgs; [ ];
   };
@@ -55,6 +58,17 @@
     };
     printing.enable = true;
     ssh.enable = true;
+  };
+
+  # Hardware acceleration for Android emulator (essential for performance)
+  virtualisation.libvirtd.enable = true;
+  boot.kernelModules = [ "kvm-intel" ]; # Use "kvm-amd" for AMD processors
+  boot.extraModprobeConfig = "options kvm_intel nested=1";
+
+  # Graphics acceleration
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
   };
 
   programs.firefox.enable = true;
@@ -79,10 +93,6 @@
     # Term stuff
     yazi
     neovim
-
-    # Apps
-    obsidian
-    discord
 
     # Hyprland stuff
     wl-clipboard # Clipboard manager
