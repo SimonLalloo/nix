@@ -71,6 +71,12 @@
     enable32Bit = true;
   };
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d --delete-generations +10";
+  };
+
   programs.firefox.enable = true;
 
   nixpkgs.config.allowUnfree = true;
