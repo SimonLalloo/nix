@@ -52,6 +52,7 @@
   fonts.enable = true;
 
   systemServices = {
+    audio.enable = true;
     networking = {
       enable = true;
       hostname = "laptop-nix";
