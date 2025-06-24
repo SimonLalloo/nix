@@ -53,6 +53,7 @@
 
   systemServices = {
     audio.enable = true;
+    bluetooth.enable = true;
     networking = {
       enable = true;
       hostname = "laptop-nix";
