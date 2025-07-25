@@ -13,8 +13,11 @@
     gcc
   ];
 
-  # TODO:
-  desktop.hyprland.enable = false;
+  desktop = {
+    # TODO: fix hyperland config
+    hyprland.enable = false;
+    photos.enable = true;
+  };
 
   development = {
     python.enable = true; # base python will be installed even if disabled

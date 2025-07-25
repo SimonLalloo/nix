@@ -26,6 +26,12 @@
   #   pulse.enable = true;
   # };
 
+  # Photo import stuff
+  # TODO: Clean this up
+  services.udisks2.enable = true;
+  # This supposedly helps with file manager integration
+  services.gvfs.enable = true;
+
   programs.zsh.enable = true;
 
   # Define user account.
@@ -73,6 +79,7 @@
     enable32Bit = true;
   };
 
+  # TODO: fix this
   nix.gc = {
     automatic = true;
     dates = "weekly";
