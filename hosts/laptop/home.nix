@@ -17,6 +17,7 @@
     # TODO: fix hyperland config
     hyprland.enable = false;
     photos.enable = true;
+    waybar.enable = true;
   };
 
   development = {

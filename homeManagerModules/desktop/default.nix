@@ -6,6 +6,8 @@
     ./hyprland.nix
 
     ./photos.nix
+
+    ./waybar.nix
   ];
 
   home.packages = with pkgs; [
