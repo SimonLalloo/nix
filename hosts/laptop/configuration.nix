@@ -18,20 +18,6 @@
   # - Bluetooth
   # - Battery
 
-  # Enable sound.
-  # services.pulseaudio.enable = true;
-  # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
-
-  # Photo import stuff
-  # TODO: Clean this up
-  services.udisks2.enable = true;
-  # This supposedly helps with file manager integration
-  services.gvfs.enable = true;
-
   programs.zsh.enable = true;
 
   # Define user account.
@@ -78,6 +64,18 @@
     enable = true;
     enable32Bit = true;
   };
+
+  # Critical kernel parameters for Tiger Lake
+  # This fixes some crashing issues, but probably isn't
+  # great for battery optimization.
+  boot.kernelParams = [
+    "i915.enable_psr=0" # Disable Panel Self Refresh (most important)
+    # "i915.enable_guc=0" # Disable GuC submission
+    # "i915.enable_huc=0" # Disable HuC firmware
+    "i915.enable_fbc=0" # Disable framebuffer compression
+    "i915.force_probe=9a49" # Force probe for Tiger Lake (optional)
+    "acpi_osi=Linux" # Inform BIOS of OS
+  ];
 
   # TODO: fix this
   nix.gc = {

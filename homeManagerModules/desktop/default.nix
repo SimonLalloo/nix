@@ -14,6 +14,6 @@
     discord
     obsidian
     zoom-us
-    xfce.thunar
+    xfce.thunar # File manager
   ];
 }

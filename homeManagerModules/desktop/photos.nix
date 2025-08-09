@@ -16,12 +16,8 @@ with lib;
       darktable # Photo editing
       focus-stack # Focus stacking util
 
-      # TODO: figure out if I need these
-      gvfs
-      libraw
-      gphoto2
-      libmtp
-      udisks2
+      libraw # Library for raw photo handling
+      gphoto2 # Set of camera tools
     ];
 
   };
