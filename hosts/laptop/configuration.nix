@@ -68,6 +68,8 @@
   # Critical kernel parameters for Tiger Lake
   # This fixes some crashing issues, but probably isn't
   # great for battery optimization.
+  # I'm not sure how well this works or which params
+  # are important or not.
   boot.kernelParams = [
     "i915.enable_psr=0" # Disable Panel Self Refresh (most important)
     # "i915.enable_guc=0" # Disable GuC submission
@@ -77,11 +79,10 @@
     "acpi_osi=Linux" # Inform BIOS of OS
   ];
 
-  # TODO: fix this
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 30d --delete-generations +10";
+    options = "--delete-older-than 10d";
   };
 
   programs.firefox.enable = true;
