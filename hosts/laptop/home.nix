@@ -22,7 +22,6 @@
 
   development = {
     python.enable = true; # base python will be installed even if disabled
-    flutter.enable = true;
   };
 
   shells.zsh = {

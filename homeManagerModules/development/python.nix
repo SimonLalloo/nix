@@ -23,6 +23,12 @@ with lib; {
         # Tooling
         ruff # Linter
         pyright # LSP
+
+        # Basic Python packages
+        # These allow me to make basic scripts without
+        # having to set up a dev flake every time
+        python3Packages.numpy
+        python3Packages.matplotlib
       ];
 
     })

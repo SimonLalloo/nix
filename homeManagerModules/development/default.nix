@@ -4,7 +4,6 @@
   imports = [
 
     ./python.nix
-    ./flutter.nix
   ];
 
   home.packages = with pkgs; [
