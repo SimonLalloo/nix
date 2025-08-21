@@ -13,11 +13,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # TODO: 
-  # - Audio
-  # - Bluetooth
-  # - Battery
-
   programs.zsh.enable = true;
 
   # Define user account.

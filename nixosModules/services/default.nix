@@ -17,5 +17,4 @@
   # These handle mounting stuff when connecting external storage
   services.udisks2.enable = true;
   services.gvfs.enable = true;
-
 }
