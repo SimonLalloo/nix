@@ -39,7 +39,7 @@ with lib;
       # hyprlock # Lock screen
       # hypridle # Idle manager
 
-      rofi-wayland # App launcher / switcher
+      rofi # App launcher / switcher
       kitty # terminal
 
       wl-clipboard # Clipboard manager

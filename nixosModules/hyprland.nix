@@ -17,7 +17,7 @@ with lib;
     services.libinput.enable = true;
 
     environment.systemPackages = with pkgs; [
-      rofi-wayland # Default application launcher / app switcher
+      rofi # Default application launcher / app switcher
       kitty # default terminal
     ];
 
