@@ -22,6 +22,7 @@
 
   development = {
     python.enable = true; # base python will be installed even if disabled
+    latex.enable = true;
   };
 
   shells.zsh = {

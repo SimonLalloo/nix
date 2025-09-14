@@ -25,6 +25,7 @@
       "adbusers" # Required for ADB (Android Debug Bridge) device access
       "kvm" # Required for Android emulator hardware acceleration
       "libvirtd" # advanced virtualization management
+      "docker" # Run docker without sudo
     ];
     packages = with pkgs; [ ];
   };
@@ -48,6 +49,8 @@
     printing.enable = true;
     ssh.enable = true;
   };
+
+  virtualisation.docker.enable = true;
 
   # Hardware acceleration for Android emulator (essential for performance)
   virtualisation.libvirtd.enable = true;

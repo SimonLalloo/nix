@@ -17,5 +17,8 @@
     obsidian
     zoom-us
     xfce.thunar # File manager
+
+    dunst
+    quickshell
   ];
 }
