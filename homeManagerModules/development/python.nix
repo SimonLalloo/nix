@@ -29,6 +29,7 @@ with lib; {
         # having to set up a dev flake every time
         python3Packages.numpy
         python3Packages.matplotlib
+        python3Packages.pip
       ];
 
     })
