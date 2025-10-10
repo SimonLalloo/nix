@@ -31,7 +31,10 @@
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {
+      inherit inputs;
+      pkgs-stable = inputs.nixpkgs-stable.legacyPackages.${pkgs.system};
+    };
     users = { "simon" = import ./home.nix; };
   };
 

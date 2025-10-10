@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-stable, ... }:
 
 with lib;
 
@@ -12,7 +12,7 @@ with lib;
     home.packages = with pkgs; [
 
       nomacs # Photo viewing
-      digikam # Photo sorting
+      pkgs-stable.digikam # Photo sorting
       darktable # Photo editing
       focus-stack # Focus stacking util
 
