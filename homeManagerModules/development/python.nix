@@ -8,13 +8,13 @@ with lib; {
 
   config = mkMerge [
     # Always available
-    {
-      home.packages = with pkgs;
-        [
-
-          python3
-        ];
-    }
+    # {
+    #   home.packages = with pkgs;
+    #     [
+    #
+    #       python3
+    #     ];
+    # }
 
     # Only when enabled
     (mkIf config.development.python.enable {
@@ -27,9 +27,13 @@ with lib; {
         # Basic Python packages
         # These allow me to make basic scripts without
         # having to set up a dev flake every time
-        python3Packages.numpy
-        python3Packages.matplotlib
-        python3Packages.pip
+        (python3.withPackages (ps:
+          with ps; [
+
+            numpy
+            matplotlib
+            pip
+          ]))
       ];
 
     })
