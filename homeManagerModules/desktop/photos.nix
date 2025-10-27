@@ -12,7 +12,8 @@ with lib;
     home.packages = with pkgs; [
 
       nomacs # Photo viewing
-      pkgs-stable.digikam # Photo sorting
+      # pkgs-stable.digikam # Photo sorting
+      digikam # Photo sorting
       darktable # Photo editing
       focus-stack # Focus stacking util
 
