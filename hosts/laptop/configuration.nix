@@ -26,6 +26,7 @@
       "kvm" # Required for Android emulator hardware acceleration
       "libvirtd" # advanced virtualization management
       "docker" # Run docker without sudo
+      "vboxusers" # Use VirtualBox
     ];
     packages = with pkgs; [ ];
   };
@@ -54,10 +55,13 @@
   };
 
   virtualisation.docker.enable = true;
+  virtualisation.virtualbox.host.enable = true;
 
   # Hardware acceleration for Android emulator (essential for performance)
   virtualisation.libvirtd.enable = true;
-  boot.kernelModules = [ "kvm-intel" ]; # Use "kvm-amd" for AMD processors
+  boot.kernelModules = [
+    "kvm-intel" # Use "kvm-amd" for AMD processors
+  ];
   boot.extraModprobeConfig = "options kvm_intel nested=1";
 
   # Graphics acceleration
@@ -70,13 +74,13 @@
   # This fixes some crashing issues, but probably isn't
   # great for battery optimization.
   # I'm not sure how well this works or which params
-  # are important or not.
+  # are important or not, but not using them seems fine.
   boot.kernelParams = [
-    "i915.enable_psr=0" # Disable Panel Self Refresh (most important)
+    # "i915.enable_psr=0" # Disable Panel Self Refresh (most important)
     # "i915.enable_guc=0" # Disable GuC submission
     # "i915.enable_huc=0" # Disable HuC firmware
-    "i915.enable_fbc=0" # Disable framebuffer compression
-    "i915.force_probe=9a49" # Force probe for Tiger Lake (optional)
+    # "i915.enable_fbc=0" # Disable framebuffer compression
+    # "i915.force_probe=9a49" # Force probe for Tiger Lake (optional)
     "acpi_osi=Linux" # Inform BIOS of OS
   ];
 
