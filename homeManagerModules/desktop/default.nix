@@ -16,7 +16,7 @@
     discord
     obsidian
     zoom-us
-    xfce.thunar # File manager
+    thunar # File manager
 
     dunst
     quickshell
