@@ -34,6 +34,6 @@
     fd # Better find
 
     gnumake
-    linuxPackages_latest.perf
+    perf
   ];
 }
