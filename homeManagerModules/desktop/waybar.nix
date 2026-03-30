@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -14,10 +19,9 @@ with lib;
 
   config = mkIf config.desktop.waybar.enable {
 
-    home.packages = with pkgs;
-      [
+    home.packages = with pkgs; [
 
-      ];
+    ];
 
     programs.waybar = {
       enable = true;
@@ -25,12 +29,20 @@ with lib;
         mainBar = {
           layer = "top";
           position = "top";
+          mode = "hide";
+          modifier-reset = "press";
           height = 30;
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
-          modules-right = [ "network" "battery" "tray" ];
+          modules-right = [
+            "network"
+            "battery"
+            "tray"
+          ];
 
-          "hyprland/workspaces" = { format = "{name}"; };
+          "hyprland/workspaces" = {
+            format = "{name}";
+          };
 
           clock = {
             format = "{:%H:%M}";

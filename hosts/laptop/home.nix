@@ -7,11 +7,10 @@
   home.homeDirectory = "/home/simon";
 
   nixpkgs.config.allowUnfree = true;
-  home.packages = with pkgs;
-    [
-      # Packages should be installed via modules
+  home.packages = with pkgs; [
+    # Packages should be installed via modules
 
-    ];
+  ];
 
   desktop = {
     # TODO: fix hyperland config
@@ -25,8 +24,9 @@
     latex.enable = true;
   };
 
-  shells.zsh = {
-    enable = true;
+  shells = {
+    zsh.enable = true;
+    nushell.enable = true;
     rebuild = "sudo nixos-rebuild switch --flake ~/nixos#laptop";
   };
 

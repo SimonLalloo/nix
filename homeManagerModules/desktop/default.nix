@@ -17,8 +17,7 @@
     obsidian
     zoom-us
     thunar # File manager
-
+    pdfpc # PDF presentation software
     dunst
-    quickshell
   ];
 }

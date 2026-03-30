@@ -1,16 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 {
   options = {
-    shells.zsh.enable = mkEnableOption "Enable zsh config";
 
-    shells.zsh.rebuild = mkOption {
-      type = types.str;
-      default = "echo command not set";
-      description = "Rebuild command for the device";
-    };
+    shells.zsh.enable = mkEnableOption "Enable zsh config";
   };
 
   config = mkIf config.shells.zsh.enable {
@@ -29,7 +29,7 @@ with lib;
 
       # Shell aliases
       shellAliases = {
-        rebuild = config.shells.zsh.rebuild;
+        rebuild = config.shells.rebuild;
 
         ls = "ls --color=auto";
         ll = "ls -alF";
@@ -83,7 +83,9 @@ with lib;
         version = 3;
         final_space = true;
 
-        palette = { grey = "#6c6c6c"; };
+        palette = {
+          grey = "#6c6c6c";
+        };
 
         # Secondary prompt block for multiline commands
         secondary_prompt = {
@@ -98,8 +100,10 @@ with lib;
           background = "transparent";
           type = "path";
           style = "plain";
-          foreground_templates =
-            [ "{{if gt .Code 0}}red{{end}}" "{{if eq .Code 0}}magenta{{end}}" ];
+          foreground_templates = [
+            "{{if gt .Code 0}}red{{end}}"
+            "{{if eq .Code 0}}magenta{{end}}"
+          ];
         };
 
         blocks = [
@@ -121,8 +125,7 @@ with lib;
                 };
               }
               {
-                template =
-                  " {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>";
+                template = " {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>";
                 foreground = "p:grey";
                 background = "transparent";
                 type = "git";
@@ -140,34 +143,40 @@ with lib;
           {
             type = "rprompt";
             overflow = "hidden";
-            segments = [{
-              template = "{{ .FormattedMs }}";
-              foreground = "yellow";
-              background = "transparent";
-              type = "executiontime";
-              style = "plain";
-              properties = {
-                cache_duration = "none";
-                threshold = 5000;
-              };
-            }];
+            segments = [
+              {
+                template = "{{ .FormattedMs }}";
+                foreground = "yellow";
+                background = "transparent";
+                type = "executiontime";
+                style = "plain";
+                properties = {
+                  cache_duration = "none";
+                  threshold = 5000;
+                };
+              }
+            ];
           }
           # Main prompt block
           {
             type = "prompt";
             alignment = "left";
             newline = true;
-            segments = [{
-              template = "❯";
-              background = "transparent";
-              type = "text";
-              style = "plain";
-              foreground_templates = [
-                "{{if gt .Code 0}}red{{end}}"
-                "{{if eq .Code 0}}magenta{{end}}"
-              ];
-              properties = { cache_duration = "none"; };
-            }];
+            segments = [
+              {
+                template = "❯";
+                background = "transparent";
+                type = "text";
+                style = "plain";
+                foreground_templates = [
+                  "{{if gt .Code 0}}red{{end}}"
+                  "{{if eq .Code 0}}magenta{{end}}"
+                ];
+                properties = {
+                  cache_duration = "none";
+                };
+              }
+            ];
           }
         ];
       };
