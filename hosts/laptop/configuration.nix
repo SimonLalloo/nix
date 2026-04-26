@@ -1,4 +1,8 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -7,7 +11,10 @@
     ../../nixosModules
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -36,7 +43,9 @@
       inherit inputs;
       pkgs-stable = inputs.nixpkgs-stable.legacyPackages.${pkgs.system};
     };
-    users = { "simon" = import ./home.nix; };
+    users = {
+      "simon" = import ./home.nix;
+    };
   };
 
   hyprland.enable = true;
@@ -92,6 +101,7 @@
 
   programs.firefox.enable = true;
 
+  # TODO: refactor this
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     # Base utils
@@ -129,4 +139,3 @@
   # DO NOT change this value.
   system.stateVersion = "25.05"; # Did you read the comment?
 }
-
