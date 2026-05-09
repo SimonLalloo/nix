@@ -33,6 +33,7 @@
             ./hosts/laptop/configuration.nix
             inputs.home-manager.nixosModules.default
 
+            # Replace Neovim with my custom config
             nvf.nixosModules.default
             {
               nixpkgs.overlays = [
