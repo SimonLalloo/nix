@@ -5,6 +5,11 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
 
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
+
+    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,36 +19,5 @@
     nvf-config.url = "github:SimonLalloo/NVF";
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-stable,
-      nvf,
-      nvf-config,
-      ...
-    }@inputs:
-    {
-      nixosConfigurations = {
-        # Laptop config
-        laptop = nixpkgs.lib.nixosSystem {
-
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./hosts/laptop/configuration.nix
-            inputs.home-manager.nixosModules.default
-
-            # Replace Neovim with my custom config
-            nvf.nixosModules.default
-            {
-              nixpkgs.overlays = [
-                (self: super: {
-                  neovim = nvf-config.packages."x86_64-linux".default;
-                })
-              ];
-            }
-          ];
-        };
-      };
-    };
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }

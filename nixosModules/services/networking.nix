@@ -4,8 +4,7 @@ with lib;
 
 {
   options = {
-    systemServices.networking.enable =
-      mkEnableOption "Enable networking configuration";
+    systemServices.networking.enable = mkEnableOption "Enable networking configuration";
 
     systemServices.networking.hostname = mkOption {
       type = types.str;
@@ -48,8 +47,12 @@ with lib;
               password = "";
               phase2-auth = "mschapv2";
             };
-            ipv4 = { method = "auto"; };
-            ipv6 = { method = "auto"; };
+            ipv4 = {
+              method = "auto";
+            };
+            ipv6 = {
+              method = "auto";
+            };
           };
         };
       };
