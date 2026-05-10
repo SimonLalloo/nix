@@ -51,15 +51,44 @@
 
       fonts.enable = true;
 
-      systemServices = {
-        audio.enable = true;
-        bluetooth.enable = true;
-        networking = {
-          enable = true;
-          hostname = "laptop-nix";
+      services.printing.enable = true;
+      # Enable the OpenSSH daemon.
+      services.openssh.enable = true;
+      # These handle mounting stuff when connecting external storage
+      services.udisks2.enable = true;
+      services.gvfs.enable = true;
+
+      services.blueman.enable = true; # GUI bluetooth manager
+      hardware.bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+        settings = {
+          General = {
+            Enable = "Source,Sink,Media,Socket";
+            Experimental = true; # Better BLE support.
+            FastConnectable = true; # Faster connections but more connections.
+          };
+          GATT = {
+            AttMtu = 517;
+          };
+          Policy = {
+            # Enable all controllers when they are found. This includes
+            # adapters present on start as well as adapters that are plugged
+            # in later on. Defaults to 'true'.
+            AutoEnable = true;
+          };
         };
-        printing.enable = true;
-        ssh.enable = true;
+      };
+
+      security.rtkit.enable = true;
+      services.pipewire = {
+        enable = true;
+        alsa.enable = true;
+        alsa.support32Bit = true;
+        pulse.enable = true;
+
+        # If you want to use JACK applications, uncomment this
+        #jack.enable = true;
       };
 
       virtualisation.docker.enable = true;
@@ -100,6 +129,57 @@
 
       programs.firefox.enable = true;
 
+      networking = {
+        hostName = "laptop-nix";
+
+        networkmanager = {
+          enable = true;
+          settings.connection = {
+            # This is necessary for proper fallback to IPv4 in case of IPv6 issues.
+            "ipv6.method" = "auto";
+            "ipv6.may-fail" = true;
+          };
+
+          # Configuration for Eduroam
+          ensureProfiles.profiles = {
+            "eduroam" = {
+              connection = {
+                id = "eduroam";
+                type = "wifi";
+                autoconnect = true;
+              };
+              wifi = {
+                mode = "infrastructure";
+                ssid = "eduroam";
+              };
+              wifi-security = {
+                auth-alg = "open";
+                key-mgmt = "wpa-eap";
+              };
+              "802-1x" = {
+                eap = "peap";
+                identity = "sila3085@user.uu.se";
+                password = "";
+                phase2-auth = "mschapv2";
+              };
+              ipv4 = {
+                method = "auto";
+              };
+              ipv6 = {
+                method = "auto";
+              };
+            };
+          };
+        };
+      };
+
+      # Enable systemd-resolved for local DNS
+      services.resolved.enable = true;
+
+      # Configure network proxy if necessary
+      # networking.proxy.default = "http://user:password@proxy:port/";
+      # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
       # TODO: refactor this
       nixpkgs.config.allowUnfree = true;
       environment.systemPackages = with pkgs; [
@@ -131,6 +211,8 @@
         hyprlock # Lock screen
         hypridle # Idle manager
         brightnessctl # Backlight controls
+
+        pavucontrol
       ];
 
       # This option defines the first version of NixOS you have installed on this particular machine,

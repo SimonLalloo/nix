@@ -8,6 +8,5 @@
 
     ./fonts.nix
 
-    ./services
   ];
 }
