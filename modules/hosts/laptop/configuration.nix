@@ -7,9 +7,6 @@
         self.nixosModules.laptopHardware
         self.nixosModules.neovim
         inputs.home-manager.nixosModules.default
-
-        # Existing classic-style NixOS modules tree (untouched for now)
-        ../../../nixosModules
       ];
 
       nix.settings.experimental-features = [
@@ -47,9 +44,52 @@
         users.simon = import ../../../hosts/laptop/home.nix;
       };
 
-      hyprland.enable = true;
+      # Set your time zone.
+      time.timeZone = "Europe/Stockholm";
 
-      fonts.enable = true;
+      # Select internationalisation properties.
+      i18n.defaultLocale = "en_US.UTF-8";
+
+      i18n.extraLocaleSettings = {
+        LC_ADDRESS = "sv_SE.UTF-8";
+        LC_IDENTIFICATION = "sv_SE.UTF-8";
+        LC_MEASUREMENT = "sv_SE.UTF-8";
+        LC_MONETARY = "sv_SE.UTF-8";
+        LC_NAME = "sv_SE.UTF-8";
+        LC_NUMERIC = "sv_SE.UTF-8";
+        LC_PAPER = "sv_SE.UTF-8";
+        LC_TELEPHONE = "sv_SE.UTF-8";
+        LC_TIME = "sv_SE.UTF-8";
+      };
+
+      programs.hyprland = {
+        enable = true;
+        xwayland.enable = true;
+      };
+
+      # Enable touchpad support
+      services.libinput.enable = true;
+
+      # Enable XDG portal for Hyprland
+      xdg.portal = {
+        enable = true;
+        extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+      };
+
+      fonts.packages = with pkgs; [
+        nerd-fonts.hack
+        nerd-fonts.noto
+        nerd-fonts.jetbrains-mono
+      ];
+
+      fonts.fontconfig = {
+        enable = true;
+        defaultFonts = {
+          serif = [ "Noto Serif" ];
+          sansSerif = [ "Noto Sans" ];
+          monospace = [ "Hack Nerd Font" ];
+        };
+      };
 
       services.printing.enable = true;
       # Enable the OpenSSH daemon.
@@ -211,6 +251,8 @@
         hyprlock # Lock screen
         hypridle # Idle manager
         brightnessctl # Backlight controls
+        rofi # Default application launcher / app switcher
+        kitty # default terminal
 
         pavucontrol
       ];
