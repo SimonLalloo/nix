@@ -13,6 +13,7 @@
 
         self.nixosModules.neovim
         self.nixosModules.hyprland
+        self.nixosModules.niri
 
         # Home Manager (to be migrated away from later)
         inputs.home-manager.nixosModules.default
@@ -37,6 +38,8 @@
         ];
         packages = with pkgs; [ ];
       };
+
+      # pkgs.stdenv.hostPlatform.system = "x86_64-linux";
 
       # My default shell
       # TODO: Move to zsh module?
