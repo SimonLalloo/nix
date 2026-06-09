@@ -76,12 +76,10 @@
       programs.firefox.enable = true;
 
       environment.systemPackages = with pkgs; [
-        # Base utilities
         btop
         dig
         git
         stow
-        tmux
         tree
         unzip
         vim
@@ -89,7 +87,6 @@
         yazi
         zip
 
-        # Audio GUI
         pavucontrol
       ];
     };

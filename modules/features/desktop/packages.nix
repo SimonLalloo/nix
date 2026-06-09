@@ -1,7 +1,12 @@
 { ... }:
 {
   flake.nixosModules.desktop =
-    { pkgs, lib, config, ... }:
+    {
+      pkgs,
+      lib,
+      config,
+      ...
+    }:
     {
       options = {
         desktop.photos.enable = lib.mkEnableOption "Enable photo editing tools";

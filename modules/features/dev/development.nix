@@ -1,7 +1,12 @@
 { ... }:
 {
   flake.nixosModules.development =
-    { pkgs, lib, config, ... }:
+    {
+      pkgs,
+      lib,
+      config,
+      ...
+    }:
     {
       options = {
         development.python.enable = lib.mkEnableOption "Enable Python development environment";
@@ -28,11 +33,13 @@
         ++ lib.optionals config.development.python.enable [
           ruff
           pyright
-          (python3.withPackages (ps: with ps; [
-            numpy
-            matplotlib
-            pip
-          ]))
+          (python3.withPackages (
+            ps: with ps; [
+              numpy
+              matplotlib
+              pip
+            ]
+          ))
         ]
         ++ lib.optionals config.development.latex.enable [
           texlive.combined.scheme-full

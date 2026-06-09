@@ -1,7 +1,7 @@
 { self, ... }:
 {
   flake.nixosModules.laptopConfiguration =
-    { pkgs, ... }:
+    { ... }:
     {
       imports = [
         self.nixosModules.laptopHardware
@@ -18,8 +18,11 @@
 
         self.nixosModules.desktop
         self.nixosModules.development
-        self.nixosModules.shells
+
+        self.nixosModules.zsh
+        self.nixosModules.nushell
         self.nixosModules.tmux
+        self.nixosModules.direnv
       ];
 
       # Boot loader
@@ -28,7 +31,6 @@
 
       users.users.simon = {
         isNormalUser = true;
-        shell = pkgs.zsh;
         extraGroups = [
           "wheel"
           "networkmanager"
@@ -38,8 +40,6 @@
           "vboxusers"
         ];
       };
-
-      programs.zsh.enable = true;
 
       networking.hostName = "laptop-nix";
 
@@ -56,11 +56,10 @@
         latex.enable = true;
       };
 
-      shells = {
-        zsh.enable = true;
-        nushell.enable = true;
-        rebuild = "sudo nixos-rebuild switch --flake ~/nixos#laptop";
-      };
+      shells.zsh.enable = true;
+      shells.nushell.enable = true;
+
+      programs.zsh.shellAliases.rebuild = "sudo nixos-rebuild switch --flake ~/nixos#laptop";
 
       term.tmux.enable = true;
     };

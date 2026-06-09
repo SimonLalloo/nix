@@ -4,16 +4,10 @@
     { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [
-        gh # GitHub
+        gh
         claude-code
-
-        git
-        tree
         ripgrep
         fzf
-        tmux
-        zip
-        unzip
       ];
     };
 }

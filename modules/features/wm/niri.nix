@@ -3,24 +3,15 @@
   flake.nixosModules.niri =
     { pkgs, lib, ... }:
     {
-      # environment.sessionVariables = {
-      #   WAYLAND_DISPLAY = "wayland-1";
-      #   XDG_CURRENT_DESKTOP = "niri";
-      # };
-      #
-      # xdg.portal = {
-      #   enable = true;
-      #   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-      #   config.niri.default = [ "gtk" ];
-      # };
-
       programs.niri = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
       };
-    };
 
-  # TODO: Separate niri config from perSystem module
+      environment.systemPackages = [
+        self.packages.${pkgs.stdenv.hostPlatform.system}.myKitty
+      ];
+    };
 
   perSystem =
     {
@@ -49,7 +40,6 @@
             };
 
             touchpad = {
-              # natural-scroll = {};
               tap = { };
             };
           };
@@ -69,8 +59,6 @@
 
           prefer-no-csd = true;
 
-          # Belt-and-suspenders: force outline-style drawing for every window,
-          # including apps that ignore prefer-no-csd.
           window-rules = [
             {
               draw-border-with-background = false;
@@ -83,7 +71,7 @@
           };
 
           binds = {
-            "Mod+Return".spawn-sh = lib.getExe pkgs.kitty;
+            "Mod+Return".spawn-sh = lib.getExe self'.packages.myKitty;
             "Mod+S".spawn-sh = "${lib.getExe self'.packages.myNoctalia} ipc call launcher toggle";
 
             "Mod+Q".close-window = { };
@@ -140,7 +128,6 @@
             "XF86MonBrightnessUp".spawn-sh = "${lib.getExe pkgs.brightnessctl} set 5%+";
             "XF86MonBrightnessDown".spawn-sh = "${lib.getExe pkgs.brightnessctl} set 5%-";
 
-            # Screenshots
             "Mod+U".spawn-sh =
               "${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" - | ${lib.getExe pkgs.imagemagick} - -shave 1x1 PNG:- | ${pkgs.wl-clipboard}/bin/wl-copy";
             "Mod+Shift+U".spawn-sh =
@@ -165,7 +152,6 @@
               "w8" = settings;
               "w9" = settings;
             };
-
         };
       };
     };
