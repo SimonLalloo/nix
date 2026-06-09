@@ -19,5 +19,7 @@
     thunar # File manager
     pdfpc # PDF presentation software
     dunst
+
+    # chromium
   ];
 }

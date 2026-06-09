@@ -3,6 +3,17 @@
   flake.nixosModules.niri =
     { pkgs, lib, ... }:
     {
+      # environment.sessionVariables = {
+      #   WAYLAND_DISPLAY = "wayland-1";
+      #   XDG_CURRENT_DESKTOP = "niri";
+      # };
+      #
+      # xdg.portal = {
+      #   enable = true;
+      #   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      #   config.niri.default = [ "gtk" ];
+      # };
+
       programs.niri = {
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
@@ -23,6 +34,7 @@
         inherit pkgs;
         settings = {
           spawn-at-startup = [
+            "${pkgs.bash}/bin/bash -c '${pkgs.dbus}/bin/dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri'"
             (lib.getExe self'.packages.myNoctalia)
           ];
 
@@ -72,8 +84,13 @@
 
           binds = {
             "Mod+Return".spawn-sh = lib.getExe pkgs.kitty;
-            "Mod+C".close-window = { };
             "Mod+S".spawn-sh = "${lib.getExe self'.packages.myNoctalia} ipc call launcher toggle";
+
+            "Mod+Q".close-window = { };
+            "Mod+F".maximize-column = { };
+            "Mod+G".fullscreen-window = { };
+            "Mod+Shift+F".toggle-window-floating = { };
+            "Mod+C".center-column = { };
 
             "Mod+H".focus-column-left = { };
             "Mod+L".focus-column-right = { };
@@ -95,7 +112,6 @@
             "Mod+Ctrl+J".set-window-height = "-5%";
             "Mod+Ctrl+K".set-window-height = "+5%";
 
-            # FIXME: These don't work
             "Mod+1".focus-workspace = "w0";
             "Mod+2".focus-workspace = "w1";
             "Mod+3".focus-workspace = "w2";
@@ -121,10 +137,14 @@
             "XF86AudioRaiseVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
             "XF86AudioLowerVolume".spawn-sh = "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
 
-            # TODO: brightness controls
+            "XF86MonBrightnessUp".spawn-sh = "${lib.getExe pkgs.brightnessctl} set 5%+";
+            "XF86MonBrightnessDown".spawn-sh = "${lib.getExe pkgs.brightnessctl} set 5%-";
 
-            # TODO: screenshots
-
+            # Screenshots
+            "Mod+U".spawn-sh =
+              "${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" - | ${lib.getExe pkgs.imagemagick} - -shave 1x1 PNG:- | ${pkgs.wl-clipboard}/bin/wl-copy";
+            "Mod+Shift+U".spawn-sh =
+              "${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" - | ${lib.getExe pkgs.imagemagick} - -shave 1x1 ~/Photos/Screenshots/screenshot_$(date +%Y%m%d_%H%M%S).png";
           };
 
           workspaces =
