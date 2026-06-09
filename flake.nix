@@ -10,11 +10,6 @@
 
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nvf.url = "github:notashelf/nvf";
     nvf-config.url = "github:SimonLalloo/NVF";
   };

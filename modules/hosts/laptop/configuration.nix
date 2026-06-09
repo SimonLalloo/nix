@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ self, ... }:
 {
   flake.nixosModules.laptopConfiguration =
     { pkgs, ... }:
@@ -6,6 +6,7 @@
       imports = [
         self.nixosModules.laptopHardware
         self.nixosModules.base
+        self.nixosModules.term
 
         self.nixosModules.networking
         self.nixosModules.bluetooth
@@ -15,8 +16,10 @@
         self.nixosModules.hyprland
         self.nixosModules.niri
 
-        # Home Manager (to be migrated away from later)
-        inputs.home-manager.nixosModules.default
+        self.nixosModules.desktop
+        self.nixosModules.development
+        self.nixosModules.shells
+        self.nixosModules.tmux
       ];
 
       # Boot loader
@@ -27,22 +30,15 @@
         isNormalUser = true;
         shell = pkgs.zsh;
         extraGroups = [
-          "wheel" # sudo
-          "networkmanager" # Networking
-          "kvm" # Required for certain hardware acceleration
-
-          # Virtualization stuff
-          "libvirtd" # advanced virtualization management
-          "docker" # Run docker without sudo
-          "vboxusers" # Use VirtualBox
+          "wheel"
+          "networkmanager"
+          "kvm"
+          "libvirtd"
+          "docker"
+          "vboxusers"
         ];
-        packages = with pkgs; [ ];
       };
 
-      # pkgs.stdenv.hostPlatform.system = "x86_64-linux";
-
-      # My default shell
-      # TODO: Move to zsh module?
       programs.zsh.enable = true;
 
       networking.hostName = "laptop-nix";
@@ -51,26 +47,21 @@
       system.stateVersion = "25.05";
 
       # Critical kernel parameters for Tiger Lake
-      # This fixes some crashing issues, but probably isn't
-      # great for battery optimization.
-      # I'm not sure how well this works or which params
-      # are important or not, but not using them seems fine.
-      boot.kernelParams = [
-        # "i915.enable_psr=0" # Disable Panel Self Refresh (most important)
-        # "i915.enable_guc=0" # Disable GuC submission
-        # "i915.enable_huc=0" # Disable HuC firmware
-        # "i915.enable_fbc=0" # Disable framebuffer compression
-        # "i915.force_probe=9a49" # Force probe for Tiger Lake (optional)
-        "acpi_osi=Linux" # Inform BIOS of OS
-      ];
+      boot.kernelParams = [ "acpi_osi=Linux" ];
 
-      # TODO: Remove this
-      home-manager = {
-        extraSpecialArgs = {
-          inherit inputs;
-          pkgs-stable = inputs.nixpkgs-stable.legacyPackages.${pkgs.system};
-        };
-        users.simon = import ../../../hosts/laptop/home.nix;
+      desktop.photos.enable = true;
+
+      development = {
+        python.enable = true;
+        latex.enable = true;
       };
+
+      shells = {
+        zsh.enable = true;
+        nushell.enable = true;
+        rebuild = "sudo nixos-rebuild switch --flake ~/nixos#laptop";
+      };
+
+      term.tmux.enable = true;
     };
 }
