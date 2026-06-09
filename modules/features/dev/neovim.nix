@@ -7,7 +7,7 @@
 
       nixpkgs.overlays = [
         (final: prev: {
-          neovim = inputs.nvf-config.packages."x86_64-linux".default;
+          neovim = inputs.nvf-config.packages.${prev.stdenv.hostPlatform.system}.default;
         })
       ];
 

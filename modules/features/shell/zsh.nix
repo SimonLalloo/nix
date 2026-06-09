@@ -118,7 +118,7 @@ in
         };
 
         zshrc.content = ''
-          HISTFILE="/home/simon/.zsh_history"
+          HISTFILE="$HOME/.zsh_history"
           HISTSIZE=5000
           SAVEHIST=5000
           setopt SHARE_HISTORY HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE

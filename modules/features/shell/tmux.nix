@@ -1,7 +1,11 @@
 { self, inputs, ... }:
 {
   perSystem =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      ...
+    }:
     {
       packages.myTmux = inputs.wrapper-modules.wrappers.tmux.wrap {
         inherit pkgs;
@@ -30,9 +34,15 @@
           bind -r h select-pane -L
           bind -r l select-pane -R
 
-          # Copying with wl-copy (Wayland clipboard)
-          set -s copy-command 'wl-copy'
-          bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'wl-copy'
+          # Clipboard integration
+          ${lib.optionalString pkgs.stdenv.isLinux ''
+            set -s copy-command 'wl-copy'
+            bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'wl-copy'
+          ''}
+          ${lib.optionalString pkgs.stdenv.isDarwin ''
+            set -s copy-command 'pbcopy'
+            bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'pbcopy'
+          ''}
         '';
       };
     };
