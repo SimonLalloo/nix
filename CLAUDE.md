@@ -65,6 +65,7 @@ Rebuild: `sudo nixos-rebuild switch --flake ~/nixos#laptop`
 ### mbp-einride/
 nix-darwin on an M1 MacBook Pro (aarch64-darwin).
 - `default.nix` — defines `flake.darwinConfigurations.mbp-einride`
-- `configuration.nix` — defines `flake.darwinModules.mbpEinrideConfiguration`. Does NOT import nixosModules that are Linux-only (system/, desktop/, wm/, development, neovim). Shell tools, direnv, and term packages are inlined directly. Uses `self.packages.aarch64-darwin.*` for wrapped tools.
+- `configuration.nix` — defines `flake.darwinModules.mbpEinrideConfiguration`. Does NOT import nixosModules that are Linux-only (system/, desktop/, wm/, development/). Shell tools, direnv, and term packages are inlined directly. Uses `self.packages.aarch64-darwin.*` for wrapped tools.
 
-Rebuild: `darwin-rebuild switch --flake ~/nixos#mbp-einride`
+Initialize: `sudo --preserve-env=HOME darwin-rebuild switch --flake ~/nix#mbp-einride`
+Rebuild: `sudo darwin-rebuild switch --flake .#mbp-einride`

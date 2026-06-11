@@ -6,8 +6,12 @@
       environment.systemPackages = with pkgs; [
         gh
         claude-code
+
         ripgrep
         fzf
+        tree
+
+        direnv
       ];
     };
 }

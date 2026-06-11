@@ -1,9 +1,10 @@
 { self, inputs, ... }:
 {
   flake.darwinModules.mbpEinrideConfiguration =
-    { pkgs, lib, ... }:
+    { pkgs, lib, inputs, ... }:
     {
       nixpkgs.hostPlatform = "aarch64-darwin";
+      nixpkgs.config.allowUnfree = true;
 
       environment.systemPackages =
         (with pkgs; [
@@ -18,7 +19,6 @@
 
           # Dev tools
           helix
-          neovim
           rustup
           gcc
           lazygit
@@ -31,6 +31,7 @@
           gnumake
         ])
         ++ [
+          inputs.nvf-config.packages.${pkgs.stdenv.hostPlatform.system}.default
           # self.packages.aarch64-darwin.myNushell
           self.packages.aarch64-darwin.myTmux
         ];

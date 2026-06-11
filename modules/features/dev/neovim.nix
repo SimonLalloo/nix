@@ -3,16 +3,8 @@
   flake.nixosModules.neovim =
     { pkgs, ... }:
     {
-      imports = [ inputs.nvf.nixosModules.default ];
-
-      nixpkgs.overlays = [
-        (final: prev: {
-          neovim = inputs.nvf-config.packages.${prev.stdenv.hostPlatform.system}.default;
-        })
-      ];
-
-      environment.systemPackages = with pkgs; [
-        neovim
+      environment.systemPackages = [
+        inputs.nvf-config.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
     };
 }
