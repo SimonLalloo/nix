@@ -16,7 +16,6 @@
     };
 
     nvf.url = "github:notashelf/nvf";
-    nvf-config.url = "github:SimonLalloo/NVF";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
