@@ -15,6 +15,8 @@
       tabstop = 2;
       wrap = true;
       foldlevelstart = 99;
+      ignorecase = true;
+      smartcase = true;
     };
 
     binds.whichKey.enable = true;
@@ -145,9 +147,14 @@
 
       servers = {
         "harper" = {
-          filetypes = [
-            "markdown"
-            "tex"
+          # Restrict Harper to certain filetypes.
+          filetypes = lib.mkForce [
+            "text" # .txt
+            "markdown" # .md
+            "tex" # .tex
+            "asciidoc" # .adoc
+            "typst" # .typ
+            "gitcommit" # commit messages
           ];
         };
       };
@@ -288,22 +295,6 @@
         key = "<C-k>";
         mode = "n";
         action = "<C-w><C-k>";
-      }
-    ];
-
-    autocmds = [
-      {
-        # Conditional key bindings for LaTeX
-        event = [ "FileType" ];
-        pattern = [ "tex" ];
-        callback = lib.generators.mkLuaInline ''
-          function(ev)
-            vim.keymap.set("n", "<leader>rv", ":VimtexCompile<CR>", {
-              buffer = ev.buf,
-              desc = "Compile doc",
-            })
-          end
-        '';
       }
     ];
   };

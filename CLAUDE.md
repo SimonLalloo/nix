@@ -45,7 +45,8 @@ All shell modules are cross-platform — they export both `nixosModules.<x>` and
 - `term.nix` — `gh`, `claude-code`, `ripgrep`, `fzf` in systemPackages.
 
 ### dev/
-- `neovim.nix` — cross-platform. Installs `nvf-config` for the current platform via `environment.systemPackages`. Exports `nixosModules.neovim` and `darwinModules.neovim`.
+- `neovim.nix` — cross-platform. Installs Neovim for the current platform. Exports `nixosModules.neovim` and `darwinModules.neovim`.
+- `_nvf-configuration.nix` — Neovim configuration through the NVF framework (github:notashelf/nvf) with docs at https://nvf.notashelf.dev.
 - `development.nix` — cross-platform base dev tools (helix, rustup, gcc, lazygit, stylua, tree-sitter, harper, nodejs-slim, jdk, fd, gnumake; options: `development.python.enable`, `development.latex.enable` for Python/LaTeX toolchains). Exports `nixosModules.development` and `darwinModules.development`.
 - `development-linux.nix` — Linux-only extras (`vscode-fhs`, `kdePackages.qtdeclarative`). Exports `nixosModules.developmentLinux`. Import only on NixOS.
 
