@@ -1,4 +1,22 @@
 { self, inputs, ... }:
+let
+  tmuxModule =
+    {
+      pkgs,
+      lib,
+      config,
+      ...
+    }:
+    {
+      options.term.tmux.enable = lib.mkEnableOption "Enable tmux configuration";
+
+      config = lib.mkIf config.term.tmux.enable {
+        environment.systemPackages = [
+          self.packages.${pkgs.stdenv.hostPlatform.system}.myTmux
+        ];
+      };
+    };
+in
 {
   perSystem =
     {
@@ -47,20 +65,6 @@
       };
     };
 
-  flake.nixosModules.tmux =
-    {
-      pkgs,
-      lib,
-      config,
-      ...
-    }:
-    {
-      options.term.tmux.enable = lib.mkEnableOption "Enable tmux configuration";
-
-      config = lib.mkIf config.term.tmux.enable {
-        environment.systemPackages = [
-          self.packages.${pkgs.stdenv.hostPlatform.system}.myTmux
-        ];
-      };
-    };
+  flake.nixosModules.tmux = tmuxModule;
+  flake.darwinModules.tmux = tmuxModule;
 }

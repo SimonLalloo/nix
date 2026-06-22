@@ -3,20 +3,6 @@
   flake.nixosModules.base =
     { pkgs, ... }:
     {
-      # Nix daemon settings
-      nix.settings.experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-
-      nix.gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 10d";
-      };
-
-      nixpkgs.config.allowUnfree = true;
-
       # Locale & timezone
       time.timeZone = "Europe/Stockholm";
 

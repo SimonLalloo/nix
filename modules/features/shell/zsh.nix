@@ -89,6 +89,33 @@ let
       }
     ];
   };
+
+  zshModule =
+    {
+      pkgs,
+      lib,
+      config,
+      ...
+    }:
+    let
+      myZsh = self.packages.${pkgs.stdenv.hostPlatform.system}.myZsh;
+    in
+    {
+      options.shells.zsh.enable = lib.mkEnableOption "Enable zsh configuration";
+
+      config = lib.mkIf config.shells.zsh.enable {
+        users.users.simon.shell = myZsh;
+        environment.shells = [ myZsh ];
+
+        programs.zsh = {
+          enable = true;
+        }
+        // lib.optionalAttrs pkgs.stdenv.isLinux {
+          autosuggestions.enable = true;
+          syntaxHighlighting.enable = true;
+        };
+      };
+    };
 in
 {
   perSystem =
@@ -138,25 +165,6 @@ in
       };
     };
 
-  flake.nixosModules.zsh =
-    {
-      pkgs,
-      lib,
-      config,
-      ...
-    }:
-    {
-      options.shells.zsh.enable = lib.mkEnableOption "Enable zsh configuration";
-
-      config = lib.mkIf config.shells.zsh.enable {
-        users.users.simon.shell = self.packages.${pkgs.stdenv.hostPlatform.system}.myZsh;
-        environment.shells = [ self.packages.${pkgs.stdenv.hostPlatform.system}.myZsh ];
-
-        programs.zsh = {
-          enable = true;
-          autosuggestions.enable = true;
-          syntaxHighlighting.enable = true;
-        };
-      };
-    };
+  flake.nixosModules.zsh = zshModule;
+  flake.darwinModules.zsh = zshModule;
 }

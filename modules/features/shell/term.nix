@@ -1,6 +1,6 @@
 { ... }:
-{
-  flake.nixosModules.term =
+let
+  termModule =
     { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [
@@ -9,9 +9,10 @@
 
         ripgrep
         fzf
-        tree
-
-        direnv
       ];
     };
+in
+{
+  flake.nixosModules.term = termModule;
+  flake.darwinModules.term = termModule;
 }

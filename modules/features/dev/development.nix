@@ -1,6 +1,6 @@
 { ... }:
-{
-  flake.nixosModules.development =
+let
+  developmentModule =
     {
       pkgs,
       lib,
@@ -17,13 +17,11 @@
         with pkgs;
         [
           helix
-          vscode-fhs
           rustup
           gcc
           lazygit
           stylua
           tree-sitter
-          kdePackages.qtdeclarative
           harper
           nodejs-slim
           jdk
@@ -48,4 +46,8 @@
           ltex-ls
         ];
     };
+in
+{
+  flake.nixosModules.development = developmentModule;
+  flake.darwinModules.development = developmentModule;
 }

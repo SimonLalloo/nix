@@ -1,7 +1,7 @@
-{ inputs, ... }:
+{ self, inputs, ... }:
 {
   perSystem =
-    { pkgs, lib, ... }:
+    { pkgs, ... }:
     {
       packages.myKitty = inputs.wrapper-modules.wrappers.kitty.wrap {
         inherit pkgs;
@@ -15,5 +15,13 @@
           update_check_interval = 0;
         };
       };
+    };
+
+  flake.nixosModules.kitty =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = [
+        self.packages.${pkgs.stdenv.hostPlatform.system}.myKitty
+      ];
     };
 }

@@ -5,6 +5,7 @@
     {
       imports = [
         self.nixosModules.laptopHardware
+        self.nixosModules.nixSettings
         self.nixosModules.base
         self.nixosModules.term
 
@@ -17,7 +18,10 @@
         self.nixosModules.niri
 
         self.nixosModules.desktop
+        self.nixosModules.kitty
+        self.nixosModules.ghostty
         self.nixosModules.development
+        self.nixosModules.developmentLinux
 
         self.nixosModules.zsh
         self.nixosModules.nushell

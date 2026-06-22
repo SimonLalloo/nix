@@ -1,18 +1,6 @@
 { self, inputs, ... }:
-{
-  perSystem =
-    { pkgs, lib, ... }:
-    {
-      packages.myNushell = inputs.wrapper-modules.wrappers.nushell.wrap {
-        inherit pkgs;
-        "config.nu".content = ''
-          $env.config = { show_banner: false }
-          alias gg = git status -sb
-        '';
-      };
-    };
-
-  flake.nixosModules.nushell =
+let
+  nushellModule =
     {
       pkgs,
       lib,
@@ -29,4 +17,20 @@
         ];
       };
     };
+in
+{
+  perSystem =
+    { pkgs, ... }:
+    {
+      packages.myNushell = inputs.wrapper-modules.wrappers.nushell.wrap {
+        inherit pkgs;
+        "config.nu".content = ''
+          $env.config = { show_banner: false }
+          alias gg = git status -sb
+        '';
+      };
+    };
+
+  flake.nixosModules.nushell = nushellModule;
+  flake.darwinModules.nushell = nushellModule;
 }
