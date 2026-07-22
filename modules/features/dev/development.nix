@@ -27,6 +27,7 @@ let
           jdk
           fd
           gnumake
+          meld
         ]
         ++ lib.optionals config.development.python.enable [
           ruff
