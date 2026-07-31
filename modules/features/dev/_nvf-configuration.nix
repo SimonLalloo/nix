@@ -26,6 +26,7 @@
 
     git = {
       gitsigns.enable = true;
+      vim-fugitive.enable = true;
     };
 
     filetree.nvimTree = {

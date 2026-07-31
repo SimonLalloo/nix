@@ -14,6 +14,7 @@
 
         self.darwinModules.neovim
         self.darwinModules.development
+        self.darwinModules.git
       ];
 
       nixpkgs.hostPlatform = "aarch64-darwin";
