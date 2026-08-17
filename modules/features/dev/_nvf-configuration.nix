@@ -24,6 +24,109 @@
     notes.todo-comments.enable = true;
     runner.run-nvim.enable = true;
 
+    # Claude inside Neovim. claudecode.nvim runs the Claude Code CLI in a
+    # terminal split and exposes this editor to it over the same WebSocket MCP
+    # protocol the official IDE extensions use, so selections, @-mentions and
+    # diffs act on the buffers already open. It shells out to `claude` from
+    # PATH (installed by the term module), reusing that login — no API key.
+    # Attr name must match the package pname ("claudecode.nvim"), not the
+    # nixpkgs attr (claudecode-nvim) — nvf asserts on the mismatch.
+    lazy.plugins."claudecode.nvim" = {
+      package = pkgs.vimPlugins.claudecode-nvim;
+      setupModule = "claudecode";
+      setupOpts = { }; # Defaults are fine; terminal provider "auto" -> native
+
+      # Register command stubs so `:ClaudeCode` and friends resolve before any
+      # of the keymaps below have been pressed.
+      cmd = [
+        "ClaudeCode"
+        "ClaudeCodeFocus"
+        "ClaudeCodeSelectModel"
+        "ClaudeCodeAdd"
+        "ClaudeCodeSend"
+        "ClaudeCodeTreeAdd"
+        "ClaudeCodeStatus"
+        "ClaudeCodeStart"
+        "ClaudeCodeStop"
+        "ClaudeCodeOpen"
+        "ClaudeCodeClose"
+        "ClaudeCodeDiffAccept"
+        "ClaudeCodeDiffDeny"
+        "ClaudeCodeCloseAllDiffs"
+      ];
+
+      keys = [
+        {
+          key = "<leader>ac";
+          mode = "n";
+          action = "<cmd>ClaudeCode<cr>";
+          desc = "Toggle Claude";
+        }
+        {
+          key = "<leader>af";
+          mode = "n";
+          action = "<cmd>ClaudeCodeFocus<cr>";
+          desc = "Focus Claude";
+        }
+        {
+          key = "<leader>ar";
+          mode = "n";
+          action = "<cmd>ClaudeCode --resume<cr>";
+          desc = "Resume Claude session";
+        }
+        {
+          key = "<leader>aC";
+          mode = "n";
+          action = "<cmd>ClaudeCode --continue<cr>";
+          desc = "Continue Claude session";
+        }
+        {
+          key = "<leader>am";
+          mode = "n";
+          action = "<cmd>ClaudeCodeSelectModel<cr>";
+          desc = "Select Claude model";
+        }
+        {
+          key = "<leader>ab";
+          mode = "n";
+          action = "<cmd>ClaudeCodeAdd %<cr>";
+          desc = "Add current buffer to context";
+        }
+        {
+          key = "<leader>as";
+          mode = "v";
+          action = "<cmd>ClaudeCodeSend<cr>";
+          desc = "Send selection to Claude";
+        }
+        {
+          # Same key in the file explorers adds the file under the cursor.
+          key = "<leader>as";
+          mode = "n";
+          action = "<cmd>ClaudeCodeTreeAdd<cr>";
+          desc = "Add file to context";
+          ft = [
+            "NvimTree"
+            "oil"
+            "netrw"
+          ];
+        }
+
+        # Diff review
+        {
+          key = "<leader>aa";
+          mode = "n";
+          action = "<cmd>ClaudeCodeDiffAccept<cr>";
+          desc = "Accept diff";
+        }
+        {
+          key = "<leader>ad";
+          mode = "n";
+          action = "<cmd>ClaudeCodeDiffDeny<cr>";
+          desc = "Deny diff";
+        }
+      ];
+    };
+
     git = {
       gitsigns.enable = true;
       vim-fugitive.enable = true;
