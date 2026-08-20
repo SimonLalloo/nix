@@ -24,124 +24,9 @@
     notes.todo-comments.enable = true;
     runner.run-nvim.enable = true;
 
-    # Claude inside Neovim. claudecode.nvim runs the Claude Code CLI in a
-    # terminal split and exposes this editor to it over the same WebSocket MCP
-    # protocol the official IDE extensions use, so selections, @-mentions and
-    # diffs act on the buffers already open. It shells out to `claude` from
-    # PATH (installed by the term module), reusing that login — no API key.
-    # Attr name must match the package pname ("claudecode.nvim"), not the
-    # nixpkgs attr (claudecode-nvim) — nvf asserts on the mismatch.
-    lazy.plugins."claudecode.nvim" = {
-      package = pkgs.vimPlugins.claudecode-nvim;
-      setupModule = "claudecode";
-      setupOpts = { }; # Defaults are fine; terminal provider "auto" -> native
-
-      # Register command stubs so `:ClaudeCode` and friends resolve before any
-      # of the keymaps below have been pressed.
-      cmd = [
-        "ClaudeCode"
-        "ClaudeCodeFocus"
-        "ClaudeCodeSelectModel"
-        "ClaudeCodeAdd"
-        "ClaudeCodeSend"
-        "ClaudeCodeTreeAdd"
-        "ClaudeCodeStatus"
-        "ClaudeCodeStart"
-        "ClaudeCodeStop"
-        "ClaudeCodeOpen"
-        "ClaudeCodeClose"
-        "ClaudeCodeDiffAccept"
-        "ClaudeCodeDiffDeny"
-        "ClaudeCodeCloseAllDiffs"
-      ];
-
-      keys = [
-        {
-          key = "<leader>ac";
-          mode = "n";
-          action = "<cmd>ClaudeCode<cr>";
-          desc = "Toggle Claude";
-        }
-        {
-          key = "<leader>af";
-          mode = "n";
-          action = "<cmd>ClaudeCodeFocus<cr>";
-          desc = "Focus Claude";
-        }
-        {
-          key = "<leader>ar";
-          mode = "n";
-          action = "<cmd>ClaudeCode --resume<cr>";
-          desc = "Resume Claude session";
-        }
-        {
-          key = "<leader>aC";
-          mode = "n";
-          action = "<cmd>ClaudeCode --continue<cr>";
-          desc = "Continue Claude session";
-        }
-        {
-          key = "<leader>am";
-          mode = "n";
-          action = "<cmd>ClaudeCodeSelectModel<cr>";
-          desc = "Select Claude model";
-        }
-        {
-          key = "<leader>ab";
-          mode = "n";
-          action = "<cmd>ClaudeCodeAdd %<cr>";
-          desc = "Add current buffer to context";
-        }
-        {
-          key = "<leader>as";
-          mode = "v";
-          action = "<cmd>ClaudeCodeSend<cr>";
-          desc = "Send selection to Claude";
-        }
-        {
-          # Same key in the file explorers adds the file under the cursor.
-          key = "<leader>as";
-          mode = "n";
-          action = "<cmd>ClaudeCodeTreeAdd<cr>";
-          desc = "Add file to context";
-          ft = [
-            "NvimTree"
-            "oil"
-            "netrw"
-          ];
-        }
-
-        # Diff review
-        {
-          key = "<leader>aa";
-          mode = "n";
-          action = "<cmd>ClaudeCodeDiffAccept<cr>";
-          desc = "Accept diff";
-        }
-        {
-          key = "<leader>ad";
-          mode = "n";
-          action = "<cmd>ClaudeCodeDiffDeny<cr>";
-          desc = "Deny diff";
-        }
-      ];
-    };
-
     git = {
       gitsigns.enable = true;
       vim-fugitive.enable = true;
-    };
-
-    filetree.nvimTree = {
-      enable = true;
-      openOnSetup = false;
-      setupOpts = {
-        git.enable = true;
-        diagnostics.enable = true;
-        filters.git_ignored = true;
-        modified.enable = true;
-        hijack_cursor = true;
-      };
     };
 
     visuals = {
@@ -166,13 +51,15 @@
       oil-nvim.gitStatus.enable = true;
 
       # Snacks doesn't seem to work properly
-      snacks-nvim.enable = false; # Similar to Mini.nvim
+      snacks-nvim.enable = true; # Similar to Mini.nvim
       snacks-nvim.setupOpts = {
         bigfile.enabled = true;
-        dashboard.enabled = true;
+        dashboard.enabled = false;
+        notify.enabled = true;
         notifier.enabled = true;
-        explorer.enabled = true;
         picker.enabled = true;
+        explorer.enabled = false;
+        image.enabled = true; # uses Kitty graphics protocol
       };
     };
 
@@ -180,7 +67,6 @@
       ai.enable = true; # Text objects like a(.
       pairs.enable = true; # Autopair brackets, etc.
       surround.enable = true; # Modify surroundings like brackets.
-      notify.enable = true;
       indentscope.enable = true;
       files.enable = false; # File explorer thing
       pick.enable = false;
@@ -389,6 +275,24 @@
         silent = true;
         action = ":Lspsaga finder<CR>";
         desc = "Show references & usages";
+      }
+
+      # Snacks keybinds
+      {
+        key = "<leader>t";
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua Snacks.explorer.reveal()<cr>";
+        desc = "Open file explorer";
+      }
+
+      # Gitsigns
+      {
+        key = "<leader>hB";
+        mode = "n";
+        silent = true;
+        action = "<cmd>Gitsigns blame<cr>";
+        desc = "Enable git blame";
       }
 
       # Java (jdt-ls) explicit build — auto-build is disabled
