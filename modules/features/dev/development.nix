@@ -10,7 +10,6 @@ let
     {
       options = {
         development.python.enable = lib.mkEnableOption "Enable Python development environment";
-        development.latex.enable = lib.mkEnableOption "Enable LaTeX development environment";
       };
 
       config.environment.systemPackages =
@@ -36,15 +35,10 @@ let
             ps: with ps; [
               numpy
               matplotlib
+              pandas
               pip
             ]
           ))
-        ]
-        ++ lib.optionals config.development.latex.enable [
-          texlive.combined.scheme-full
-          zathura
-          texlab
-          ltex-ls
         ];
     };
 in

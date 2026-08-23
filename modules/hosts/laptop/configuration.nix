@@ -57,7 +57,6 @@
 
       development = {
         python.enable = true;
-        latex.enable = true;
       };
 
       shells.zsh.enable = true;
