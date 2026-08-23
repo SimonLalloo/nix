@@ -150,67 +150,16 @@
       };
     };
 
-    # This block disables default java formatting and re-enables it with the
-    # Google style using conform-nvim.
-    luaConfigRC.jdtls-settings = lib.nvim.dag.entryAfter [ "lsp-servers" ] ''
-      vim.lsp.config("jdt-language-server", {
-        settings = {
-          java = {
-            format = { enabled = false },
-            -- Disable Eclipse auto-build so jdt-ls never recompiles into
-            -- target/ in reaction to Maven's filesystem activity (which
-            -- corrupts `mvn verify` runs). Builds are driven explicitly
-            -- instead: incremental on save, full via <leader>rr.
-            autobuild = { enabled = false },
-          },
-        },
-      })
-
-      -- Drive a jdt-ls workspace build via the java/buildWorkspace request.
-      --   full=false -> incremental (fast, used on save)
-      --   full=true  -> full rebuild (used by <leader>rr)
-      function _G.JavaCompile(full)
-        local clients = vim.lsp.get_clients({ name = "jdt-language-server" })
-        if #clients == 0 then
-          if full then
-            vim.notify("jdt-language-server not attached", vim.log.levels.WARN)
-          end
-          return
-        end
-        local status = { [0] = "FAILED", [1] = "SUCCEED", [2] = "WITH_ERROR", [3] = "CANCELLED" }
-        local bufnr = vim.api.nvim_get_current_buf()
-        for _, client in ipairs(clients) do
-          client:request("java/buildWorkspace", full, function(err, result)
-            if err then
-              vim.notify("Java compile: " .. tostring(err.message or err), vim.log.levels.ERROR)
-            elseif full then
-              vim.notify("Java compile: " .. (status[result] or tostring(result)),
-                result == 1 and vim.log.levels.INFO or vim.log.levels.WARN)
-            end
-          end, bufnr)
-        end
-      end
-    '';
-    formatter.conform-nvim = {
-      enable = true;
-      setupOpts = {
-        formatters_by_ft.java = [ "google-java-format" ];
-        formatters.google-java-format.command = lib.getExe pkgs.google-java-format;
-      };
-    };
-
     # TODO: DSP
 
     languages = {
       enableTreesitter = true;
 
+      # Basic languages
       nix.enable = true;
-      clang.enable = true;
-      cmake.enable = true;
-      rust.enable = true;
-      rust.extensions.crates-nvim.enable = true;
       python.enable = true;
-      java.enable = true;
+
+      go.enable = true;
     };
 
     extraPlugins = {
@@ -295,16 +244,6 @@
         desc = "Enable git blame";
       }
 
-      # Java (jdt-ls) explicit build — auto-build is disabled
-      {
-        key = "<leader>rr";
-        mode = "n";
-        silent = true;
-        lua = true;
-        action = "function() _G.JavaCompile(true) end";
-        desc = "jdt-ls: full compile workspace";
-      }
-
       # Basic stuff
       {
         key = "<leader>y";
@@ -347,17 +286,6 @@
     ];
 
     autocmds = [
-      {
-        # Refresh jdt-ls cross-file diagnostics on save (incremental build).
-        # Gated to editor saves so it never races a running `mvn verify`.
-        event = [ "BufWritePost" ];
-        pattern = [ "*.java" ];
-        callback = lib.generators.mkLuaInline ''
-          function()
-            _G.JavaCompile(false)
-          end
-        '';
-      }
     ];
   };
 }
