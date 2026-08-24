@@ -74,10 +74,10 @@ NixOS on a Lenovo laptop (x86_64-linux).
 
 Rebuild: `sudo nixos-rebuild switch --flake ~/nixos#laptop`
 
-### mbp-einride/
+### mbp-simon/
 nix-darwin on an M1 MacBook Pro (aarch64-darwin).
-- `default.nix` — defines `flake.darwinConfigurations.mbp-einride`
-- `configuration.nix` — defines `flake.darwinModules.mbpEinrideConfiguration`. Imports the cross-platform `darwinModules.{nixSettings, term, direnv, zsh, tmux, neovim, development}`. Does NOT import Linux-only modules (system/, desktop/, wm/, development-linux/).
+- `default.nix` — defines `flake.darwinConfigurations.mbp-simon`
+- `configuration.nix` — defines `flake.darwinModules.mbpSimonConfiguration`. Imports the cross-platform `darwinModules.{nixSettings, term, direnv, zsh, tmux, neovim, development}`. Does NOT import Linux-only modules (system/, desktop/, wm/, development-linux/).
 
-Initialize: `sudo --preserve-env=HOME darwin-rebuild switch --flake ~/nix#mbp-einride`
-Rebuild: `sudo darwin-rebuild switch --flake .#mbp-einride`
+Initialize: `nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake .#mbp-simon`
+Rebuild: `sudo darwin-rebuild switch --flake .#mbp-simon`

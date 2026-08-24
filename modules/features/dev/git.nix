@@ -7,6 +7,13 @@ let
         gh
         delta
         meld
+
+        # TODO: move this to another file
+        firefox
+        spotify
+        obsidian
+        slack
+        vscode
       ];
     };
 in

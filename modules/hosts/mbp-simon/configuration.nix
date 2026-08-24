@@ -1,6 +1,6 @@
 { self, ... }:
 {
-  flake.darwinModules.mbpEinrideConfiguration =
+  flake.darwinModules.mbpSimonConfiguration =
     { ... }:
     {
       imports = [
@@ -22,14 +22,14 @@
       shells.zsh.enable = true;
       term.tmux.enable = true;
 
-      environment.shellAliases.rebuild = "sudo darwin-rebuild switch --flake ~/nix#mbp-einride";
+      environment.shellAliases.rebuild = "sudo darwin-rebuild switch --flake ~/nix#mbp-simon";
 
       users.users.simon = {
         name = "simon";
         home = "/Users/simon";
       };
 
-      networking.hostName = "mbp-einride";
+      networking.hostName = "mbp-simon";
       system.stateVersion = 5;
     };
 }
