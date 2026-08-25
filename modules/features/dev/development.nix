@@ -25,8 +25,9 @@ let
           nodejs-slim
           jdk
           fd
+          ripgrep
           gnumake
-          meld
+          bitwarden-cli
         ]
         ++ lib.optionals config.development.python.enable [
           ruff

@@ -49,9 +49,11 @@ All shell modules are cross-platform — they export both `nixosModules.<x>` and
 - `_nvf-configuration.nix` — Neovim configuration through the NVF framework (github:notashelf/nvf) with docs at https://nvf.notashelf.dev.
 - `development.nix` — cross-platform base dev tools (helix, rustup, gcc, lazygit, stylua, tree-sitter, harper, nodejs-slim, jdk, fd, gnumake; options: `development.python.enable` for Python toolchains). Exports `nixosModules.development` and `darwinModules.development`.
 - `development-linux.nix` — Linux-only extras (`vscode-fhs`, `kdePackages.qtdeclarative`). Exports `nixosModules.developmentLinux`. Import only on NixOS.
+- `git.nix` — cross-platform git tooling (`gh`, `delta`, `meld`). Exports `nixosModules.git` and `darwinModules.git`.
 
 ### desktop/
-Linux-only. Do not import on Darwin.
+Mostly Linux-only (do not import these on Darwin), except `gui.nix` which is cross-platform.
+- `gui.nix` — cross-platform GUI apps that build on both NixOS and Darwin (`firefox`, `spotify`, `obsidian`, `slack`, `vscode`, `bitwarden-desktop`) in `environment.systemPackages`. Exports `nixosModules.guiApps` and `darwinModules.guiApps`.
 - `packages.nix` — `nixosModules.desktop` (spotify, discord, obsidian, syncthing, etc.; option: `desktop.photos.enable`)
 - `kitty.nix` — `packages.myKitty` + `nixosModules.kitty` (installs `myKitty` via `environment.systemPackages`)
 - `ghostty.nix` — `packages.myGhostty` (ghostty wrapped via `symlinkJoin` + `makeWrapper` with `--config-file=` pointing at a nix-store config; GruvboxDark theme) + `nixosModules.ghostty` (installs `myGhostty` via `environment.systemPackages`)
@@ -77,7 +79,7 @@ Rebuild: `sudo nixos-rebuild switch --flake ~/nixos#laptop`
 ### mbp-simon/
 nix-darwin on an M1 MacBook Pro (aarch64-darwin).
 - `default.nix` — defines `flake.darwinConfigurations.mbp-simon`
-- `configuration.nix` — defines `flake.darwinModules.mbpSimonConfiguration`. Imports the cross-platform `darwinModules.{nixSettings, term, direnv, zsh, tmux, neovim, development}`. Does NOT import Linux-only modules (system/, desktop/, wm/, development-linux/).
+- `configuration.nix` — defines `flake.darwinModules.mbpSimonConfiguration`. Imports the cross-platform `darwinModules.{nixSettings, term, direnv, zsh, tmux, neovim, development, git, guiApps}`. Does NOT import Linux-only modules (system/, desktop/, wm/, development-linux/).
 
 Initialize: `nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake .#mbp-simon`
 Rebuild: `sudo darwin-rebuild switch --flake .#mbp-simon`
