@@ -158,6 +158,10 @@
       # Basic languages
       nix.enable = true;
       python.enable = true;
+      markdown = {
+        enable = true;
+        extensions.render-markdown-nvim.enable = true;
+      };
 
       go.enable = true;
     };

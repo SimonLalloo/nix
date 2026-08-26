@@ -81,5 +81,6 @@ nix-darwin on an M1 MacBook Pro (aarch64-darwin).
 - `default.nix` — defines `flake.darwinConfigurations.mbp-simon`
 - `configuration.nix` — defines `flake.darwinModules.mbpSimonConfiguration`. Imports the cross-platform `darwinModules.{nixSettings, term, direnv, zsh, tmux, neovim, development, git, guiApps}`. Does NOT import Linux-only modules (system/, desktop/, wm/, development-linux/).
 
+Note: these (usually) don't work with the rebuild command and need to be run directly in the terminal
 Initialize: `nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake .#mbp-simon`
 Rebuild: `sudo darwin-rebuild switch --flake .#mbp-simon`
