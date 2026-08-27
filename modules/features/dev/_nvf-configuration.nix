@@ -50,10 +50,10 @@
       oil-nvim.enable = true; # Better netrw
       oil-nvim.gitStatus.enable = true;
 
-      # Snacks doesn't seem to work properly
       snacks-nvim.enable = true; # Similar to Mini.nvim
       snacks-nvim.setupOpts = {
         bigfile.enabled = true;
+        bigfile.line_length = 10000;
         dashboard.enabled = false;
         notify.enabled = true;
         notifier.enabled = true;
@@ -163,7 +163,24 @@
         extensions.render-markdown-nvim.enable = true;
       };
 
+      xml.enable = true; # Treesitter + lemminx LSP
+
       go.enable = true;
+    };
+
+    # NVF has no XML preset for conform-nvim, so wire xmllint in directly.
+    formatter.conform-nvim = {
+      enable = true;
+      setupOpts = {
+        formatters.xmllint = {
+          command = lib.getExe' pkgs.libxml2 "xmllint";
+          args = [
+            "--format"
+            "-"
+          ];
+        };
+        formatters_by_ft.xml = [ "xmllint" ];
+      };
     };
 
     extraPlugins = {
