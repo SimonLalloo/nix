@@ -53,11 +53,11 @@ in
           bind -r l select-pane -R
 
           # Clipboard integration
-          ${lib.optionalString pkgs.stdenv.isLinux ''
+          ${lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
             set -s copy-command 'wl-copy'
             bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'wl-copy'
           ''}
-          ${lib.optionalString pkgs.stdenv.isDarwin ''
+          ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
             set -s copy-command 'pbcopy'
             bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'pbcopy'
           ''}
