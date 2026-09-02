@@ -11,6 +11,7 @@ let
         slack
         vscode
         bitwarden-desktop
+        linear
       ];
     };
 in
