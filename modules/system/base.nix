@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.nixosModules.base =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     {
       # Locale & timezone
       time.timeZone = "Europe/Stockholm";
@@ -64,7 +64,7 @@
       environment.systemPackages = with pkgs; [
         btop
         dig
-        git
+        (lib.lowPrio git) # Fallback if no git module
         stow
         tree
         unzip

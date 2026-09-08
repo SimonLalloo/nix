@@ -1,0 +1,71 @@
+[user]
+	email = simon@lalloo.me
+	name = Simon Lalloo
+
+[credential]
+	helper = store
+
+[core]
+	editor = vim
+	pager = delta		# Use delta for all paged output (diff, show, log -p)
+
+[alias]
+  s = status -sb
+	unstage = restore --staged
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	hist = log -10 --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	last = log -1 --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+# UI
+[color]
+	ui = auto		# Use colors
+
+[column]
+	ui = auto
+
+# Settings
+[init]
+	defaultBranch = main	
+
+[pull]
+	rebase = false		# No auto rebase
+
+[push]
+	autoSetupRemote = true	# Automatically add remote
+	followTags = true	# Automatically push tags
+
+[interactive]
+	diffFilter = delta --color-only	# delta for `git add -p` and friends
+
+[delta]
+	navigate = true		# n/N moves between diff sections
+	line-numbers = true
+
+[diff]
+	algorithm = histogram	# Better diff algorithm
+	colorMoved = default	# Use different colors for moved code (delta wants `default`)
+	mnemonicPrefix = true
+	renames = true		# Recognize renamed files
+	tool = meld
+[difftool]
+	prompt = false
+[difftool "meld"]
+	cmd = meld "$LOCAL" "$REMOTE"
+
+[merge]
+	conflictstyle = zdiff3	# Better diff shows original version as well as both changes
+	tool = meld
+[mergetool "meld"]
+	# Only use one of these lines
+	cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+	; cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
+
+[branch]
+	sort = -committerdate	# Reasonable sorting
+
+[tag]
+	sort = version:refname	# Reasonable sorting
+
+[rerere]
+	enabled = true		# Save rebase solutions
+	autoupdate = true

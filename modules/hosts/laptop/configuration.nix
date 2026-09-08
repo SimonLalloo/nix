@@ -22,6 +22,7 @@
         self.nixosModules.ghostty
         self.nixosModules.development
         self.nixosModules.developmentLinux
+        self.nixosModules.git
 
         self.nixosModules.zsh
         self.nixosModules.nushell
