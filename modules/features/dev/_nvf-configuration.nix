@@ -19,7 +19,6 @@
       smartcase = true;
     };
 
-    binds.whichKey.enable = true;
     statusline.lualine.enable = true;
     notes.todo-comments.enable = true;
     runner.run-nvim.enable = true;
@@ -124,8 +123,8 @@
       presets.harper.enable = true; # Spellcheck
 
       lspsaga.enable = true;
-      # These mappings have been disabled in favor of LspSaga mappings in the keymaps section
       mappings = {
+        # These mappings have been disabled in favor of LspSaga mappings in the keymaps section
         codeAction = null;
         hover = null;
         renameSymbol = null;
@@ -133,6 +132,13 @@
         nextDiagnostic = null;
         previousDiagnostic = null;
         listDocumentSymbols = null;
+
+        # Move the goto mappings off the <leader>lg prefix onto <leader>g
+        goToDefinition = "<leader>gd";
+        goToDeclaration = "<leader>gD";
+        goToType = "<leader>gt";
+        listImplementations = "<leader>gi";
+        listReferences = "<leader>gr";
       };
 
       servers = {
@@ -189,7 +195,13 @@
       };
     };
 
+    binds.whichKey = {
+      enable = true;
+      register."<leader>g" = "+Goto"; # match LSP keybind change
+    };
+
     keymaps = [
+
       # LSP Saga stuff
       {
         key = "<leader>la"; # Replace LSP code action
@@ -206,14 +218,14 @@
         desc = "Show error";
       }
       {
-        key = "<leader>lgn"; # Replace LSP next diagnostic
+        key = "<leader>gn"; # Replace LSP next diagnostic
         mode = "n";
         silent = true;
         action = ":Lspsaga diagnostic_jump_next<CR>";
         desc = "Go to next diagnostic";
       }
       {
-        key = "<leader>lgp"; # Replace LSP previous diagnostic
+        key = "<leader>gp"; # Replace LSP previous diagnostic
         mode = "n";
         silent = true;
         action = ":Lspsaga diagnostic_jump_prev<CR>";
@@ -240,6 +252,13 @@
         desc = "Show symbols/outline";
       }
       {
+        key = "<leader>gv"; # Like <leader>gd, but in a vertical split
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua vim.cmd.vsplit(); vim.lsp.buf.definition()<cr>";
+        desc = "Go to definition in vertical split";
+      }
+      {
         key = "<leader>ll";
         mode = "n";
         silent = true;
@@ -254,6 +273,13 @@
         silent = true;
         action = "<cmd>lua Snacks.explorer.reveal()<cr>";
         desc = "Open file explorer";
+      }
+      {
+        key = "<leader>sg";
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua Snacks.picker.git_status()<cr>";
+        desc = "Git status";
       }
 
       # Gitsigns
