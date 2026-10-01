@@ -153,6 +153,15 @@
             "gitcommit" # commit messages
           ];
         };
+
+        "gopls" = {
+          settings.hints = {
+            parameterNames = true;
+            assignVariableTypes = true;
+            compositeLiteralFields = true;
+            constantValues = true;
+          };
+        };
       };
     };
 
@@ -170,8 +179,20 @@
       };
 
       xml.enable = true; # Treesitter + lemminx LSP
+      json.enable = true;
 
-      go.enable = true;
+      go = {
+        enable = true;
+        extraDiagnostics.enable = true; # golangci-lint via nvim-lint
+        extensions.gopher-nvim.enable = true; # :GoTests, :GoIfErr, :GoTagAdd, :GoImpl
+        format = {
+          enable = true;
+          type = [
+            "goimports"
+            "gofumpt"
+          ];
+        };
+      };
     };
 
     # NVF has no XML preset for conform-nvim, so wire xmllint in directly.
@@ -193,7 +214,32 @@
       vimtex = {
         package = pkgs.vimPlugins.vimtex;
       };
+
+      # Test runner: run/inspect Go tests without a full DAP setup.
+      nvim-nio = {
+        package = pkgs.vimPlugins.nvim-nio; # neotest dependency
+      };
+      neotest-golang = {
+        package = pkgs.vimPlugins.neotest-golang;
+        after = [ "nvim-nio" ];
+      };
+      neotest = {
+        package = pkgs.vimPlugins.neotest;
+        after = [ "neotest-golang" ];
+        setup = ''
+          require('neotest').setup {
+            adapters = {
+              require('neotest-golang') {
+                runner = "gotestsum", -- steadier output than raw `go test -json`
+              },
+            },
+          }
+        '';
+      };
     };
+
+    # gotestsum is the recommended runner for neotest-golang.
+    extraPackages = [ pkgs.gotestsum ];
 
     binds.whichKey = {
       enable = true;
@@ -280,6 +326,36 @@
         silent = true;
         action = "<cmd>lua Snacks.picker.git_status()<cr>";
         desc = "Git status";
+      }
+
+      # Neotest
+      {
+        key = "<leader>rt";
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua require('neotest').run.run()<cr>";
+        desc = "Run nearest test";
+      }
+      {
+        key = "<leader>rf";
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>";
+        desc = "Run tests in file";
+      }
+      {
+        key = "<leader>rs";
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua require('neotest').summary.toggle()<cr>";
+        desc = "Toggle test summary";
+      }
+      {
+        key = "<leader>rp";
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua require('neotest').output_panel.toggle()<cr>";
+        desc = "Toggle test output panel";
       }
 
       # Gitsigns
