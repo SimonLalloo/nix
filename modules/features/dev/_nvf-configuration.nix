@@ -193,6 +193,24 @@
           ];
         };
       };
+
+      typescript = {
+        enable = true;
+        format.type = [ "biome" ];
+        extraDiagnostics = {
+          enable = true;
+          types = [ "biomejs" ];
+        };
+      };
+
+      tsx = {
+        enable = true;
+        format.type = [ "biome" ];
+        extraDiagnostics = {
+          enable = true;
+          types = [ "biomejs" ];
+        };
+      };
     };
 
     # NVF has no XML preset for conform-nvim, so wire xmllint in directly.
