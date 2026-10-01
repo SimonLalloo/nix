@@ -5,6 +5,7 @@
     {
       imports = [
         self.darwinModules.nixSettings
+        self.darwinModules.mac
 
         self.darwinModules.term
         self.darwinModules.direnv

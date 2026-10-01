@@ -28,6 +28,7 @@ let
           ripgrep
           gnumake
           bitwarden-cli
+          postman
         ]
         ++ lib.optionals config.development.python.enable [
           ruff
