@@ -179,7 +179,13 @@
       };
 
       xml.enable = true; # Treesitter + lemminx LSP
-      json.enable = true;
+      json = {
+        enable = true;
+        format = {
+          enable = true; # Languages module formatting is disabled by default. See conform-nvim.
+          type = [ "biome" ];
+        };
+      };
 
       go = {
         enable = true;
@@ -196,7 +202,10 @@
 
       typescript = {
         enable = true;
-        format.type = [ "biome" ];
+        format = {
+          enable = true;
+          type = [ "biome" ];
+        };
         extraDiagnostics = {
           enable = true;
           types = [ "biomejs" ];
@@ -205,7 +214,10 @@
 
       tsx = {
         enable = true;
-        format.type = [ "biome" ];
+        format = {
+          enable = true;
+          type = [ "biome" ];
+        };
         extraDiagnostics = {
           enable = true;
           types = [ "biomejs" ];
