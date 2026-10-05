@@ -15,6 +15,7 @@
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	hist = log -10 --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	last = log -1 --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	refresh = "!f() { unset GIT_DIR GIT_WORK_TREE GIT_PREFIX && orig=\"$(pwd)\" && main_dir=\"$(git worktree list --porcelain | awk '/^worktree /{d=$2} /^branch refs\\/heads\\/main$/{print d}')\" && if [ -z \"$main_dir\" ]; then echo 'refresh: no worktree found for branch main' >&2; return 1; fi && cd \"$main_dir\" && git pull && cd \"$orig\" && git rebase main; }; f"
 
 # UI
 [color]
