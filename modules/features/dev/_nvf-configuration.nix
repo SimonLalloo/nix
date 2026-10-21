@@ -172,7 +172,12 @@
 
       # Basic languages
       nix.enable = true;
-      python.enable = true;
+
+      python = {
+        enable = true;
+        lsp.servers = [ "pyrefly" ];
+      };
+
       markdown = {
         enable = true;
         extensions.render-markdown-nvim.enable = true;
