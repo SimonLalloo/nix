@@ -32,6 +32,7 @@
       };
 
       networking.hostName = "mbp-simon";
+      system.primaryUser = "simon";
       system.stateVersion = 5;
     };
 }
