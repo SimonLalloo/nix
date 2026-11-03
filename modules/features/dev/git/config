@@ -7,7 +7,8 @@
 
 [core]
 	editor = vim
-	pager = delta		# Use delta for all paged output (diff, show, log -p)
+	# Use delta for all paged output (diff, show, log -p)
+  pager = delta --side-by-side --line-numbers --navigate
 
 [alias]
   s = status -sb
@@ -37,10 +38,6 @@
 
 [interactive]
 	diffFilter = delta --color-only	# delta for `git add -p` and friends
-
-[delta]
-	navigate = true		# n/N moves between diff sections
-	line-numbers = true
 
 [diff]
 	algorithm = histogram	# Better diff algorithm
